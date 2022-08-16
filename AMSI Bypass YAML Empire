@@ -6,7 +6,7 @@ comments:
   - ''
 language: powershell
 min_language_version: '3'
-script: 'Class Hunter {
+script: ' Class Hunter {
     static [IntPtr] FindAddress([IntPtr]$address, [byte[]]$egg) {
         while ($true) {
             [int]$count = 0
