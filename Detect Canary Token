@@ -1,0 +1,17 @@
+# Define the registry key path
+$registryPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\"
+# Check if the registry key exists
+if (Test-Path $registryPath) {
+    # Get the subkeys (child keys) from the registry key
+    $subKeys = Get-ChildItem -Path $registryPath
+
+    # Check if subkeys exist
+    if ($subKeys) {
+        Write-Host "Subkeys found in $registryPath :"
+        $subKeys | Select-Object -ExpandProperty Name
+    } else {
+        Write-Host "No subkeys found in $registryPath."
+    }
+} else {
+    Write-Host "The specified registry key does not exist."
+}
