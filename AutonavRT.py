@@ -13,9 +13,9 @@ saved_actual_duration = 0
 def roll_dice(size):
     return random.randint(1, size)
 
-def is_positive_integer(user_input_warp):
+def is_positive_integer(user_input):
     try:
-        number = int(user_input_warp)
+        number = int(user_input)
 
         if number < 0:
             print("Invalid input. Please try again with a positive whole number.")
@@ -74,8 +74,8 @@ def stage0():
     base_duration = calculate_base_duration()
     roll_result, effect, durationmod, saved_stability_number = roll_route_stability()
     totalduration = base_duration * durationmod
-    print(f"The Route is {effect} days")
-    print("New Duration is", totalduration)
+    print(f"The Route is {effect} ")
+    print(f"New Duration is {totalduration} days")
     saved_final_duration = totalduration
     return saved_final_duration
 
@@ -159,9 +159,11 @@ def locate_astro():
 
     if locate_astropsy < total_locate_astro:
         saved_astro_test = 10
+        print("Navigator successfully located the Astronomican")
         return saved_astro_test
     else:
         saved_astro_test = -20
+        print("Navigator wasn't able to located the Astronomican")
         return saved_astro_test
 
 
@@ -175,25 +177,26 @@ def navigation_warp():
     print (f"The roll was {navig_check}")
     modified_s3_navigation_warp = s3_navigation_warp + saved_astro_test
     degrees = calculate_degrees(modified_s3_navigation_warp,navig_check)
+    print (degrees)
     if degrees <= -2:
         saved_actual_duration = saved_final_duration * 4
         return saved_actual_duration
-    if degrees == -1:
+    elif degrees == -1:
         saved_actual_duration = saved_final_duration * 3
         return saved_actual_duration
-    if degrees == -0:
+    elif degrees == -0:
         saved_actual_duration = saved_final_duration * 2
         return saved_actual_duration
-    if degrees == 0:
+    elif degrees == 0:
         saved_actual_duration = saved_actual_duration * 1
         return saved_actual_duration
-    if degrees == 1:
+    elif degrees == 1:
         saved_actual_duration = saved_final_duration * .75
         return saved_actual_duration
-    if degrees == 2:
+    elif degrees == 2:
         saved_actual_duration = saved_actual_duration * .5
         return saved_actual_duration
-    if degrees >= 3:
+    elif degrees >= 3:
         saved_actual_duration = saved_actual_duration * .25
         return saved_actual_duration
     print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
@@ -216,9 +219,9 @@ def detecting_encounters():
 #Testing Location
 
 
-#stage0()
-#stage1()
-#stage2()
-#locate_astro()
+stage0()
+stage1()
+stage2()
+locate_astro()
 navigation_warp()
-#detecting_encounters()
+detecting_encounters()
