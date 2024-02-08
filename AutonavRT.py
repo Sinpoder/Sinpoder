@@ -173,13 +173,14 @@ def navigation_warp():
 
 
 
-#This requires a +10 check, and if they succeed by even 1 degree of success, they get a +20 to avoid the upcoming encounter. If they fail by 1, they do not get a bonus. If they fail by two or more, the encounter happens automatically.
+#This requires a +10 check(Which has been added now), and if they succeed by even 1 degree of success, they get a +20 to avoid the upcoming encounter. If they fail by 1, they do not get a bonus. If they fail by two or more, the encounter happens automatically.
 #Want to try and make it so the user only has to put in this value once, as there are cases where the player would be better at some psy skill tests than others.
 def detecting_encounters():
     global saved_detecting_encounter_psy_score
     detecting_encounters_psy_check = roll_dice(100)
     if saved_detecting_encounter_psy_score < 1:
-        detecting_encounters_psy_skill = int(input("Please put in your Navigators Psyiscience Score in terms of Detecting Encounters: ")+10)
+        detecting_encounters_psy_skill = int(input("Please put in your Navigators Psyiscience Score in terms of Detecting Encounters: "))
+        detecting_encounters_psy_skill = detecting_encounters_psy_skill + 10
         saved_detecting_encounter_psy_score = detecting_encounters_psy_skill
         return saved_detecting_encounter_psy_score
     if saved_detecting_encounter_psy_score < detecting_encounters_psy_check:
@@ -187,8 +188,9 @@ def detecting_encounters():
 #Testing Location
 
 
-stage0()
-stage1()
-stage2()
-locate_astro()
-navigation_warp()
+#stage0()
+#stage1()
+#stage2()
+#locate_astro()
+#navigation_warp()
+#detecting_encounters()
