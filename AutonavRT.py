@@ -6,6 +6,7 @@ saved_stability_number = 0
 saved_astro_test = 0
 saved_final_duration = 0
 saved_detecting_encounter_psy_score = 0
+saved_actual_duration = 0
 
 
 # Utils
@@ -23,16 +24,18 @@ def is_positive_integer(user_input_warp):
         return True
     except ValueError:
         return False
+    
 
-    #Currently not returning a value when called, only showing {degrees_of_success} 
+#Degrees of Success and Failure will need to be calulated in a way to allow for easier identification of positive or negative success.
 def calculate_degrees(x, y):
     if x > y:
         degrees_of_success = abs(x - y) // 10
-        print("Degrees of Success: {degrees_of_success}")
+        print(f"Degrees of Success: {degrees_of_success}")
         return degrees_of_success
     elif y > x:
         degrees_of_failure = abs(y - x) // 10
-        print("Degrees of Failure: {degrees_of_failure}")
+        print(f"Degrees of Failure: {degrees_of_failure}")
+        int(degrees_of_failure) = -int(degrees_of_failure)
         return degrees_of_failure
     else:
         print("The values are equal, no degrees of success or failure.")
@@ -162,14 +165,38 @@ def locate_astro():
         return saved_astro_test
 
 
- # Needs to calculate degrees of success or failure, to compare against saved_final_duration. If they succeed by 3+ degrees of success, divide saved_final_duration by four, 2 by half, 1 by 3/4th. If they succeed, without degrees of success, leave alone
-# if failed, without degrees of failure, double saved_final_duration, if by 1 triple and if by 2+ 4x the saved_final_duration. This will matter later during the final re-entry stage       
+
 def navigation_warp():
     global saved_astro_test
+    global saved_final_duration
+    global saved_actual_duration
     s3_navigation_warp = int(input("Please put in the total for Navigation Warp, such as Charts, Ship Modifications and Ship Natures that could apply: "))
     navig_check = roll_dice(100)
+    print (f"The roll was {navig_check}")
     modified_s3_navigation_warp = s3_navigation_warp + saved_astro_test
-    calculate_degrees(modified_s3_navigation_warp,navig_check)
+    degrees = calculate_degrees(modified_s3_navigation_warp,navig_check)
+    if degrees <= -2:
+        saved_actual_duration = saved_final_duration * 4
+        return saved_actual_duration
+    if degrees == -1:
+        saved_actual_duration = saved_final_duration * 3
+        return saved_actual_duration
+    if degrees == -0:
+        saved_actual_duration = saved_final_duration * 2
+        return saved_actual_duration
+    if degrees == 0:
+        saved_actual_duration = saved_actual_duration * 1
+        return saved_actual_duration
+    if degrees == 1:
+        saved_actual_duration = saved_final_duration * .75
+        return saved_actual_duration
+    if degrees == 2:
+        saved_actual_duration = saved_actual_duration * .5
+        return saved_actual_duration
+    if degrees >= 3:
+        saved_actual_duration = saved_actual_duration * .25
+        return saved_actual_duration
+    print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
 
 
 
@@ -182,9 +209,10 @@ def detecting_encounters():
         detecting_encounters_psy_skill = int(input("Please put in your Navigators Psyiscience Score in terms of Detecting Encounters: "))
         detecting_encounters_psy_skill = detecting_encounters_psy_skill + 10
         saved_detecting_encounter_psy_score = detecting_encounters_psy_skill
+        calculate_degrees(saved_detecting_encounter_psy_score,detecting_encounters_psy_check)
         return saved_detecting_encounter_psy_score
     if saved_detecting_encounter_psy_score < detecting_encounters_psy_check:
-        calculate_degrees(saved_detecting_encounters_psy_score,detecting_encounters_psy_check)
+        calculate_degrees(saved_detecting_encounter_psy_score,detecting_encounters_psy_check)
 #Testing Location
 
 
@@ -192,5 +220,5 @@ def detecting_encounters():
 #stage1()
 #stage2()
 #locate_astro()
-#navigation_warp()
+navigation_warp()
 #detecting_encounters()
