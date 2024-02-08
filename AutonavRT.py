@@ -23,6 +23,7 @@ def is_positive_integer(user_input_warp):
     except ValueError:
         return False
 
+    #Currently not returning a value when called, only showing {degrees_of_success} 
 def calculate_degrees(x, y):
     if x > y:
         degrees_of_success = abs(x - y) // 10
@@ -43,7 +44,7 @@ def base_warp():
     if is_positive_integer(user_input_warp):
         return int(user_input_warp)
     else:
-        basewarp()
+        base_warp()
 
 def base_psyniscience():
     user_input_psyn = input("Please enter your Psyniscience Total: ")
@@ -53,20 +54,21 @@ def base_psyniscience():
     else:
         base_psyniscience()
 
-def base_duration():
+def calculate_base_duration():
     user_input_duration = input("Please enter the Routes Base Duration Total in Days: ")
 
     if is_positive_integer(user_input_duration):
         return int(user_input_duration)
     else:
-        baseduration()
+        calculate_base_duration()
 
 
 # Debug Methods
 def stage0():
     global saved_final_duration
-    base_duration = baseduration()
-    roll_result, effect, durationmod = roll_route_stability()
+    global saved_stability_number
+    base_duration = calculate_base_duration()
+    roll_result, effect, durationmod, saved_stability_number = roll_route_stability()
     totalduration = base_duration * durationmod
     print(f"The Route is {effect} days")
     print("New Duration is", totalduration)
@@ -76,18 +78,18 @@ def stage0():
 def stage1():
     psyniscience_test = roll_dice(100)
     psyniscience_base_mod = base_psyniscience()
-    return psyniscience_base_mod
     psyniscience_test_mod = int(input("Please enter any bonuses to Psyniscience check, such as +10 for basic charts, +20 for detailed charts, or +20 and +30 respectively if the Navigator created these charts:"))
     psyniscience_total = psyniscience_base_mod + psyniscience_test_mod
     print (f"You rolled a {psyniscience_test}")
-    calculate_degrees(psyniscience_total, psyniscience_test)    
+    calculate_degrees(psyniscience_total, psyniscience_test)
+    return psyniscience_base_mod
 
 def stage2():
     omen_morale = int(input("Please put your ship's morale:"))
     omen_check = roll_dice(100)
     if omen_check > omen_morale:
         captain_command = int(input("Please put your captain's Command or Missionary Charm:"))
-        captain_check = roll_dice
+        captain_check = roll_dice(100)
         if captain_check > captain_command:
             print("You have successfully negated the Omen")
         else:
@@ -107,7 +109,7 @@ def roll_route_stability():
     effect = ""
     durationmod = 1
     
-    if roll_result <= 4:
+    if roll_result <= 3:
         effect = "Stable Route: The Navigator gains a +10 bonus on any Tests to chart this route for future use."
         durationmod = 1
     elif roll_result <= 5: # This was 6 previously, which made the next condition unreachable
@@ -138,8 +140,8 @@ def locate_astro():
     global saved_astro_test
 
     locate_astro = base_psyniscience()
-    
-    if saved_stability_number < 2:
+    # The saved_stability_number that made Astromodification Number 20 is 1-3. 4-8 and 10 give 0 and 9 gives -20. This code block will need to be modified accordingly
+    if saved_stability_number < 4:
         astro_modification_number = 20
     elif saved_stability_number < 5: # Total guess on the value here, previously the next condition was unreachable
         astro_modification_number = 0
@@ -160,10 +162,17 @@ def locate_astro():
         
 def navigation_warp():
     global saved_astro_test
-    s3_navigation_warp = int(input("Please put in the total for Navigation Warp, such as Charts, Ship Modifications and Ship Natures that could apply"))
+    s3_navigation_warp = int(input("Please put in the total for Navigation Warp, such as Charts, Ship Modifications and Ship Natures that could apply: "))
     navig_check = roll_dice(100)
+    modified_s3_navigation_warp = s3_navigation_warp + saved_astro_test
+    calculate_degrees(modified_s3_navigation_warp,navig_check)
+    
 
-#stage0()
-#stage1()
-#stage2()
+#Testing Location
+
+
+stage0()
+stage1()
+stage2()
 locate_astro()
+navigation_warp()
