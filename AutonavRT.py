@@ -5,6 +5,7 @@ import random
 saved_stability_number = 0
 saved_astro_test = 0
 saved_final_duration = 0
+saved_detecting_encounter_psy_score = 0
 
 
 # Utils
@@ -159,15 +160,30 @@ def locate_astro():
     else:
         saved_astro_test = -20
         return saved_astro_test
-        
+
+
+ # Needs to calculate degrees of success or failure, to compare against saved_final_duration. If they succeed by 3+ degrees of success, divide saved_final_duration by four, 2 by half, 1 by 3/4th. If they succeed, without degrees of success, leave alone
+# if failed, without degrees of failure, double saved_final_duration, if by 1 triple and if by 2+ 4x the saved_final_duration. This will matter later during the final re-entry stage       
 def navigation_warp():
     global saved_astro_test
     s3_navigation_warp = int(input("Please put in the total for Navigation Warp, such as Charts, Ship Modifications and Ship Natures that could apply: "))
     navig_check = roll_dice(100)
     modified_s3_navigation_warp = s3_navigation_warp + saved_astro_test
     calculate_degrees(modified_s3_navigation_warp,navig_check)
-    
 
+
+
+#This requires a +10 check, and if they succeed by even 1 degree of success, they get a +20 to avoid the upcoming encounter. If they fail by 1, they do not get a bonus. If they fail by two or more, the encounter happens automatically.
+#Want to try and make it so the user only has to put in this value once, as there are cases where the player would be better at some psy skill tests than others.
+def detecting_encounters():
+    global saved_detecting_encounter_psy_score
+    detecting_encounters_psy_check = roll_dice(100)
+    if saved_detecting_encounter_psy_score < 1:
+        detecting_encounters_psy_skill = int(input("Please put in your Navigators Psyiscience Score in terms of Detecting Encounters: ")+10)
+        saved_detecting_encounter_psy_score = detecting_encounters_psy_skill
+        return saved_detecting_encounter_psy_score
+    if saved_detecting_encounter_psy_score < detecting_encounters_psy_check:
+        calculate_degrees(saved_detecting_encounters_psy_score,detecting_encounters_psy_check)
 #Testing Location
 
 
