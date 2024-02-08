@@ -26,7 +26,7 @@ def is_positive_integer(user_input_warp):
         return False
     
 
-#Degrees of Success and Failure will need to be calulated in a way to allow for easier identification of positive or negative success.
+
 def calculate_degrees(x, y):
     if x > y:
         degrees_of_success = abs(x - y) // 10
@@ -34,8 +34,8 @@ def calculate_degrees(x, y):
         return degrees_of_success
     elif y > x:
         degrees_of_failure = abs(y - x) // 10
+        degrees_of_failure = -int(degrees_of_failure)
         print(f"Degrees of Failure: {degrees_of_failure}")
-        int(degrees_of_failure) = -int(degrees_of_failure)
         return degrees_of_failure
     else:
         print("The values are equal, no degrees of success or failure.")
