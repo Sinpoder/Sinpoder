@@ -79,7 +79,7 @@ def stage0():
 def stage1():
     psyniscience_test = roll_dice(100)
     psyniscience_base_mod = base_psyniscience()
-    psyniscience_test_mod = int(input("Please enter any bonuses to Psyniscience check, such as +10 for basic charts, +20 for detailed charts, or +20 and +30 respectively if the Navigator created these charts:"))
+    psyniscience_test_mod = int(input("Please enter any bonuses to Psyniscience check when Divining the Auguries, such as +10 for basic charts, +20 for detailed charts, or +20 and +30 respectively if the Navigator created these charts along with Clan Rituals if used:"))
     psyniscience_total = psyniscience_base_mod + psyniscience_test_mod
     print (f"You rolled a {psyniscience_test}")
     calculate_degrees(psyniscience_total, psyniscience_test)
