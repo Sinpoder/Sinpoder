@@ -9,8 +9,7 @@ saved_final_duration = 0
 
 # Utils
 def roll_dice(size):
-    d100diceroll= random.randint(1, size)
-    return d100diceroll
+    return random.randint(1, size)
 
 def is_positive_integer(user_input_warp):
     try:
