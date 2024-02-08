@@ -140,9 +140,9 @@ def stage2():
     omenmorale = int(input("Please put your ship's morale:"))
     omencheck = diceroll1d100()
     if omencheck > omenmorale:
-        captaincommand = int(input("Please put your captain's Command or Missionary Charm:"))
-        captaincheck = diceroll1d100
-        if captaincheck > captaincommand:
+        captain_command = int(input("Please put your captain's Command or Missionary Charm:"))
+        captain_check = diceroll1d100
+        if captain_check > captain_command:
             print("You have successfully negated the Omen")
         else:
             print("You did not negate the Omen")
@@ -153,7 +153,7 @@ def stage2():
     
 
 
-def locateastro():
+def locate_astro():
     global saved_stability_number
     global saved_astro_test
     print("Locating the Astronomicon")
@@ -180,8 +180,8 @@ def locateastro():
 
 def navigwarp():
     global saved_astro_test
-    s3navigationwarp = int(input("Please put in the total for Navigation Warp, such as Charts, Ship Modifications and Ship Natures that could apply"))
-    navigcheck = diceroll1d100()
+    s3_navigation_warp = int(input("Please put in the total for Navigation Warp, such as Charts, Ship Modifications and Ship Natures that could apply"))
+    navig_check = diceroll1d100()
     
     
 
