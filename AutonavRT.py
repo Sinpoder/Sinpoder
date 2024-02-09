@@ -146,11 +146,11 @@ def locate_astro():
 
     locate_astro = base_psyniscience()
     # The saved_stability_number that made Astromodification Number 20 is 1-3. 4-8 and 10 give 0 and 9 gives -20. This code block will need to be modified accordingly
-    if saved_stability_number < 4:
+    if saved_stability_number <= 3:
         astro_modification_number = 20
-    elif saved_stability_number < 5: # Total guess on the value here, previously the next condition was unreachable
+    elif saved_stability_number <= 4: # Total guess on the value here, previously the next condition was unreachable
         astro_modification_number = 0
-    elif saved_stability_number < 9:
+    elif saved_stability_number <= 9:
         astro_modification_number = -20
     else:
         astro_modification_number = 0
