@@ -275,13 +275,18 @@ def encounter_table():
 def trials_of_the_soul():
     trials_of_the_soul_roll = roll_dice(100)
     if trials_of_the_soul_roll <= 25:
-        print("Trial of Temptation has occurred, if failed take 1d5 corruption points and the Encounter")
+        corruption_points = roll_dice(5)
+        print(f"Trial of Temptation has occurred, if failed take {corruption_points} corruption points and the Encounter")
     elif trials_of_the_soul_roll <= 50:
-        print("A Contest of Strength has occured, if failed take 1d10+2 Damage, ignoring armor and toughness and the Encounter")
+        damage = roll_dice(10)
+        damage = damage +2 
+        print(f"A Contest of Strength has occured, if failed take {damage} Damage, ignoring armor and toughness and the Encounter")
     elif trials_of_the_soul_roll <= 75:
-        print("A Trial of Endurance has occured, if failed take 1d5 insanty points and the Encounter")
+        insanity_points = roll_dice(5)
+        print(f"A Trial of Endurance has occured, if failed take {insanity_points} insanty points and the Encounter")
     elif trials_of_the_soul <= 100:
-        print("A Conundrum has occured, if failed, loses one unspent fate point and can not regain it until they re-enter real space. If no Fate Points are avaliable take 1d5 insanity Points and the Encounter")
+        insanity_points = roll_dice(5)
+        print(f"A Conundrum has occured, if failed, loses one unspent fate point and can not regain it until they re-enter real space. If no Fate Points are avaliable take {insanity_points} insanity Points and the Encounter")
 
 def avoid_encounter():
     global saved_avoid_encounter_bonus
