@@ -209,10 +209,6 @@ def navigation_warp():
         return saved_actual_duration
 
 
-
-
-#This requires a +10 check(Which has been added now), and if they succeed by even 1 degree of success, they get a +20 to avoid the upcoming encounter. If they fail by 1, they do not get a bonus. If they fail by two or more, the encounter happens automatically.
-#Want to try and make it so the user only has to put in this value once, as there are cases where the player would be better at some psy skill tests than others.
 def detecting_encounters():
     global saved_detecting_encounter_psy_score
     global saved_avoid_encounter_bonus
@@ -268,10 +264,6 @@ def encounter_table():
         print(" Your Ship is thrown back into real space, the vessel is counted as Severly Off Course.")
 
 
-
-
-
-
 def trials_of_the_soul():
     trials_of_the_soul_roll = roll_dice(100)
     if trials_of_the_soul_roll <= 25:
@@ -310,6 +302,16 @@ def avoid_encounter():
 
 
 
+def travelling_thr_warp():
+    global saved_actual_duration
+    travel_actual_duration = saved_actual_duration / 5
+    if travel_actual_duration < 1:
+        travel_actual_duration = 1
+    counter = 0
+    while counter < travel_actual_duration:
+        encounter_table()
+        counter += 1
+
 #Testing Location
 
 
@@ -319,3 +321,4 @@ stage2()
 locate_astro()
 navigation_warp()
 detecting_encounters()
+travelling_thr_warp()
