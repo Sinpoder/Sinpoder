@@ -7,6 +7,7 @@ saved_astro_test = 0
 saved_final_duration = 0
 saved_detecting_encounter_psy_score = 0
 saved_actual_duration = 0
+saved_avoid_encounter_bonus = 0
 
 
 # Utils
@@ -180,26 +181,33 @@ def navigation_warp():
     print (degrees)
     if degrees <= -2:
         saved_actual_duration = saved_final_duration * 4
+        print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
         return saved_actual_duration
     elif degrees == -1:
         saved_actual_duration = saved_final_duration * 3
+        print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
         return saved_actual_duration
     elif degrees == -0:
         saved_actual_duration = saved_final_duration * 2
+        print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
         return saved_actual_duration
     elif degrees == 0:
         saved_actual_duration = saved_actual_duration * 1
+        print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
         return saved_actual_duration
     elif degrees == 1:
         saved_actual_duration = saved_final_duration * .75
+        print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
         return saved_actual_duration
     elif degrees == 2:
         saved_actual_duration = saved_actual_duration * .5
+        print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
         return saved_actual_duration
     elif degrees >= 3:
         saved_actual_duration = saved_actual_duration * .25
+        print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
         return saved_actual_duration
-    print(f"The Actual Duration of the Travel will be {saved_actual_duration}")
+
 
 
 
@@ -207,15 +215,96 @@ def navigation_warp():
 #Want to try and make it so the user only has to put in this value once, as there are cases where the player would be better at some psy skill tests than others.
 def detecting_encounters():
     global saved_detecting_encounter_psy_score
+    global saved_avoid_encounter_bonus
     detecting_encounters_psy_check = roll_dice(100)
     if saved_detecting_encounter_psy_score < 1:
         detecting_encounters_psy_skill = int(input("Please put in your Navigators Psyiscience Score in terms of Detecting Encounters: "))
         detecting_encounters_psy_skill = detecting_encounters_psy_skill + 10
         saved_detecting_encounter_psy_score = detecting_encounters_psy_skill
-        calculate_degrees(saved_detecting_encounter_psy_score,detecting_encounters_psy_check)
         return saved_detecting_encounter_psy_score
-    if saved_detecting_encounter_psy_score < detecting_encounters_psy_check:
-        calculate_degrees(saved_detecting_encounter_psy_score,detecting_encounters_psy_check)
+    degrees = calculate_degrees(saved_detecting_encounter_psy_score,detecting_encounters_psy_check)
+    if degrees >= 1:
+        saved_avoid_encounter_bonus = 20
+        return saved_avoid_encounter_bonus
+    if degrees == -1:
+        saved_avoid_encounter_bonus = 0
+        return saved_avoid_encounter_bonus
+    if degrees <= -2:
+        saved_avoid_encounter_bonus = -100
+        return saved_avoid_encounter_bonus
+    
+
+def encounter_table():
+    global saved_astro_test
+    encounter_table_roll = roll_dice(100)
+    if encounter_table_roll <= 20:
+        if saved_astro_test == -20:
+            locate_astro()
+        else:    
+            print("All is Well. Any character suffering from Warp Travel Hallucinations can try to shake off the effects")
+    elif encounter_table_roll <= 30:
+        trials_of_the_soul()
+        print("All Explorers and relevant NPCs must make a +0 Willpower Test or be effected by Warp Halluincation, gain +30 if Gellar fields are on")
+    elif encounter_table_roll <= 40:
+        trials_of_the_soul()
+        print("Psychic Predators: Roll on Warp Incursions table on page 33 and apply the effect. If Gellar fields are on, reduce roll by 30")
+    elif encounter_table_roll <= 50:
+        avoid_encounter()
+        print("Statis: The Ship has become stuck in a warp rift, add 1d5 days to journey's duration")
+    elif encounter_table_roll <=60:
+        trials_of_the_soul()
+        print("Spontaneous Inhuman Combustion: The GM chooses one component that suddenly and inexplicably is set on fire")
+    elif encounter_table_roll <= 70:
+        avoid_encounter()
+        print("Warp Storm: If the Gellar Field is functional, roll 1d10 twice on the critial hit table page 222 and choose the lowest. If damage, roll once and if not operational roll 1d10+2")
+    elif encounter_table_roll <= 80:
+        avoid_encounter()
+        print("Atheric Reef: Your ship scraps against a jagged fragment of false reality. The Ship takes 1d10+2 damage, ignoring void shields. If Gellar Field is damaged, 2d10+3. If not opertional 4d10+5")
+    elif encounter_table_roll <= 90:
+        avoid_encounter()
+        print("Warp Rift: The Vessel is thrown into a nebula of unreality for 1d10 days. Each Day they are in the nebula roll on Warp Incursions Table")
+    if encounter_table_roll <= 100:
+        avoid_encounter()
+        print(" Your Ship is thrown back into real space, the vessel is counted as Severly Off Course.")
+
+
+
+
+
+
+def trials_of_the_soul():
+    trials_of_the_soul_roll = roll_dice(100)
+    if trials_of_the_soul_roll <= 25:
+        print("Trial of Temptation has occurred, if failed take 1d5 corruption points and the Encounter")
+    elif trials_of_the_soul_roll <= 50:
+        print("A Contest of Strength has occured, if failed take 1d10+2 Damage, ignoring armor and toughness and the Encounter")
+    elif trials_of_the_soul_roll <= 75:
+        print("A Trial of Endurance has occured, if failed take 1d5 insanty points and the Encounter")
+    elif trials_of_the_soul <= 100:
+        print("A Conundrum has occured, if failed, loses one unspent fate point and can not regain it until they re-enter real space. If no Fate Points are avaliable take 1d5 insanity Points and the Encounter")
+
+def avoid_encounter():
+    global saved_avoid_encounter_bonus
+    if saved_avoid_encounter_bonus <= -100:
+        print("Navigator was unable to see this encounter coming and the Encounter Automatically Triggers")
+    else:
+        avoiding_physical_encounter_roll = roll_dice(100)
+        avoiding_encounters_warp_skill = int(input("Please put in your Navigators Base Warp Navigation Skill(No External Bonuses): "))
+        avoiding_encounters_warp_skill = avoiding_encounters_warp_skill + saved_avoid_encounter_bonus
+        if avoiding_physical_encounter_roll <= avoiding_encounters_warp_skill:
+            print("Your Navigator has warned your helmsman to move the ship to avoid an encounter")
+            avoiding_physical_encounter_pilot_roll = roll_dice(100)
+            avoiding_physical_encounters_pilot_skill = int(input("Please put in your helmsman's Pilot (Space Craft) skill: "))
+            avoiding_physical_encounters_pilot_skill = avoiding_physical_encounters_pilot_skill +10
+            if avoiding_physical_encounter_pilot_roll > avoiding_physical_encounter_pilot_roll:
+                print("Your helmsman has managed to avoid the encounter")
+            else:
+                print("Your helmsman is not able to avoid the encounter! Please see description of encounter")
+        else:
+            print("Your Navigator has missed this physical encounter and has ran directly into it! Please see description of encounter")
+
+
+
 #Testing Location
 
 
